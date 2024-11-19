@@ -51,7 +51,7 @@ export class CardP extends DDDSuper(I18NMixin(LitElement)) {
           justify-content: space-between; // Space cards evenly
           margin-bottom: 20px;
         }
-        .card:hover, .card:focus {
+        .card:hover{
           background-color: var(--ddd-theme-default-white);
         }
 
@@ -90,16 +90,12 @@ export class CardP extends DDDSuper(I18NMixin(LitElement)) {
           justify-content: center;
         }
       `
-    ];
+    ]; 
   }
   render() {
     return html`
-         <div
-        class="card"
-        @click="${this.openSlug}"
-        @keydown="${this.handleKeydown}"
-        tabindex="0"
-        >
+         <div class="card" @click="${this.openSlug}" @keydown="${this.Keydown}"
+         tabindex="0"> <!-- hanlde enter key and tab accessible -->
         <div class="img-wrapper">
         ${this.logo
             ? html`<img src="https://haxtheweb.org/${this.logo}"  alt="${this.title}" />`
@@ -111,8 +107,7 @@ export class CardP extends DDDSuper(I18NMixin(LitElement)) {
           <a href="${this.slug.startsWith('http') ? this.slug : `https://haxtheweb.org/${this.slug}`}" target="_blank"  @click="${this.stopSearch}">${this.title}</a>
         </div>
 
-        <div class="description">${this.description}</div>
-        <div class="description">Created: ${this.created}</div>
+        <div class="description">${this.description}Created: ${this.created}</div>
         <div class="description">Last Updated: ${this.lastUpdated}</div>
         <div class="description">Estimated Read Time: ${this.readTime}</div>
 
@@ -123,18 +118,18 @@ export class CardP extends DDDSuper(I18NMixin(LitElement)) {
     `;
   }
 
+  // Opens the slug URL in a new tab
   openSlug(event) {
     if (this.slug) {
       const url = this.slug.startsWith("http")
         ? this.slug
         : `https://haxtheweb.org/${this.slug}`;
 
-      window.open(url, "_blank");
-    } else {
-    }
+      window.open(url, "_blank"); // open URL in a new tab
+    } 
   }
 
-  handleKeydown(event) {
+  Keydown(event) {
     if (event.key === "Enter" || event.key === " ") {
       this.openSlug();
     }

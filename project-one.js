@@ -121,9 +121,9 @@ export class projectOne extends DDDSuper(I18NMixin(LitElement)) {
 
   // Lit render the HTML
   render() {
-    return html`
-      <h2>${this.title}</h2>
-      <div class="search-wrapper">
+    return html` 
+      <h2>${this.title}</h2> 
+      <div class="search-wrapper"> 
         <input 
           id="input"
           class="search-input" 
