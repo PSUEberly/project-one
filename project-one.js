@@ -25,11 +25,11 @@ export class projectOne extends DDDSuper(I18NMixin(LitElement)) {
 
   constructor() {
     super();
-    this.title = "";
-    this.loading = false;
-    this.items = [];
-    this.data = null;
-    this.jsonUrl = '';
+    this.title = ""; //Title
+    this.loading = false; //Loading state
+    this.items = []; //Array
+    this.data = null; // Metadata
+    this.jsonUrl = '';  //URL to be fetched
   }
 
   // Lit reactive properties
@@ -55,19 +55,21 @@ export class projectOne extends DDDSuper(I18NMixin(LitElement)) {
         opacity: ${this.loading ? 0.1 : 1};
         display: flex;
         flex-wrap: wrap;
-        justify-content: space-around;
-        gap: var(--ddd-spacing-4);
-        padding: var(--ddd-spacing-5);
+        justify-content: space-around; // Space out children evenly
+        column-gap: var(--ddd-spacing-4); 
+        row-gap: var(--ddd-spacing-8);
+        padding: var(--ddd-spacing-4);
       }
-      .overview-container {
+      .overview-wrapper {
         display: flex;
         margin: 0 auto;
         padding: var(--ddd-spacing-4);
         width: 100%;
         align-items: center; 
         justify-content: center;
+        
       }
-      .search-container {
+      .search-wrapper {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -76,11 +78,13 @@ export class projectOne extends DDDSuper(I18NMixin(LitElement)) {
         padding: var(--ddd-spacing-3);
         max-width: 600px;
         margin: var(--ddd-spacing-2) auto;
+        background-color: var(--ddd-theme-default-slateGray);
       }
       .search-input {
         flex: 1;
         font-size: var(--ddd-font-weight-medium);
         border: none;
+        background-color: var(--ddd-theme-default-slateGray);
       }
       .search-input:focus {
         outline: none;
@@ -95,11 +99,16 @@ export class projectOne extends DDDSuper(I18NMixin(LitElement)) {
         color: var(--ddd-theme-default-white);
         border: solid var(--ddd-theme-default-white);
       }
-      button:hover, button:focus {
+      button:hover{
         background-color: var(--ddd-theme-default-slateGray);
       }
       button[disabled] {
         opacity: 0.75;
+      }
+      .search-glass {
+        width: 20px;
+        display: inline;
+        padding: 2px;
       }
       card-p:focus {
         outline: 2px solid var(--ddd-theme-default-athertonViolet);
@@ -114,19 +123,19 @@ export class projectOne extends DDDSuper(I18NMixin(LitElement)) {
   render() {
     return html`
       <h2>${this.title}</h2>
-      <div class="search-container">
+      <div class="search-wrapper">
         <input 
           id="input"
           class="search-input" 
           placeholder="https://haxtheweb.org/site.json" 
           @input="${this.inputChanged}" 
           @keydown="${this._handleKeydown}" />
-        <button ?disabled="${!this.isValid}" @click="${this._analyze}">Analyze</button>
+        <button ?disabled="${!this.isValid}" @click="${this._analyze}">Analyze <img class="search-glass" src="https://www.graphicsfuel.com/wp-content/uploads/2011/12/search-icon-512.png"></button>
       </div>
 
      ${this.data?.name
         ? html` 
-          <div class="overview-container">
+          <div class="overview-wrapper">
           <web-site
               title="${this.data.name}"
               description="${this.data.description}"
@@ -163,9 +172,10 @@ export class projectOne extends DDDSuper(I18NMixin(LitElement)) {
 
   inputChanged(e) {
     this.jsonUrl = e.target.value.trim();
-    this.isValid = !!this.jsonUrl;
+    this.isValid = !!this.jsonUrl; // Check if input is valid
   }
 
+  // Press enter to activate event
   _handleKeydown(e) {
     if (e.key === 'Enter' && this.isValid) {
       this._analyze();
@@ -174,40 +184,36 @@ export class projectOne extends DDDSuper(I18NMixin(LitElement)) {
 
   async _analyze() {
     if (!this.jsonUrl.startsWith("http://") && !this.jsonUrl.startsWith("https://")) {
-      this.jsonUrl = `https://${this.jsonUrl}`;
+      this.jsonUrl = `https://${this.jsonUrl}`; // Search supports site without entering 'https'
     }
     if (!this.jsonUrl.endsWith("site.json")) {
-      this.jsonUrl = `${this.jsonUrl.replace(/\/?$/, '')}/site.json`;
+      this.jsonUrl = `${this.jsonUrl.replace(/\/?$/, '')}/site.json`; // Search supports site without entering '/site.json'
     }
   
-    this.loading = true;
+    this.loading = true; // Loading state
     try {
-      const response = await fetch(this.jsonUrl);
-      const data = await response.json();
-      console.log("Fetched data:", data);
+      const response = await fetch(this.jsonUrl); // Fetch json
+      const data = await response.json(); // Parse data
   
       if (this.validateSchema(data)) {
-        this.processData(data);
+        this.processData(data); // Process if schema is valid
       } else {
         alert("Invalid JSON schema");
       }
     } catch (error) {
-      console.error("Error fetching data:", error);
-      alert("Invalid Search.");
+      alert("Invalid Search. Try Again");
     } finally {
-      this.loading = false;
+      this.loading = false; // Reset loading state
     }
   }
   
-
+  // Validate the structure of the json data
   validateSchema(data) {
     return data && Array.isArray(data.items) && data.items.length > 0;
     
   }
-
+  // Process and format fetched data
   processData(data) {
-    console.log("Processing data:", data);
-    
     this.data = {
       name: data.title || "No Title Provided",
       description: data.description || "No description available",
@@ -225,11 +231,11 @@ export class projectOne extends DDDSuper(I18NMixin(LitElement)) {
   
   }
   
-
+  // Formate timestamps to readable dates
   formatDate(timestamp) {
     return timestamp ? new Date(parseInt(timestamp) * 1000).toLocaleDateString() : '';
   }
-
+  // Extract logo url from metadata
   getLogoUrl(jsonUrl) {
     return jsonUrl;
   }

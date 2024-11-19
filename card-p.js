@@ -2,7 +2,23 @@ import { LitElement, html, css } from "lit";
 import { DDDSuper } from "@haxtheweb/d-d-d/d-d-d.js";
 import { I18NMixin } from "@haxtheweb/i18n-manager/lib/I18NMixin.js";
 
+
+// Readable visual card with title, description, logo, metadata (date, time created, etc)
 export class CardP extends DDDSuper(I18NMixin(LitElement)) {
+
+  constructor() {
+    super();
+    this.title = "";
+    this.description = '';
+    this.logo = ''; // Logo URL
+    this.created = ''; // Creation date
+    this.lastUpdated = ''; // Last update date
+    this.location = ''; // Source URL
+    this.slug = ''; // URL for nav
+    this.readTime = '';
+    this.jsonURL = '';
+  }
+
   static get properties() {
     return {
       title: { type: String },
@@ -22,30 +38,31 @@ export class CardP extends DDDSuper(I18NMixin(LitElement)) {
       super.styles,
       css`
         .card {
-          background-color: var(--ddd-theme-default-linkLight);
+          cursor: pointer;
+          background-color: var(--ddd-theme-default-coalyGray);
           border-radius: var(--ddd-radius-md);
           border: var(--ddd-border-sm);
           padding: var(--ddd-spacing-4);
           width: 300px;
           height: 450px;
-          outline: 4px solid var(--ddd-theme-default-white);
-          cursor: pointer;
+          outline: 2px solid var(--ddd-theme-default-white);
           display: flex;
-          flex-direction: column;
-          justify-content: space-between;
+          flex-direction: column; // Stack vertically
+          justify-content: space-between; // Space cards evenly
+          margin-bottom: 20px;
         }
         .card:hover, .card:focus {
           background-color: var(--ddd-theme-default-white);
         }
 
-        .image-container {
+        .img-wrapper {
           height: 200px;
           display: flex;
           align-items: center;
           justify-content: center;
         }
 
-        .image-container img {
+        .img-wrapper img {
           width: 100%;
           height: 100%;
           object-fit: cover;
@@ -62,7 +79,7 @@ export class CardP extends DDDSuper(I18NMixin(LitElement)) {
         .description, .created, .lastUpdated {
           font-size: 16px;
           text-align: center;
-          color: var(--ddd-theme-default-coalyGray);
+          color: var(--ddd-theme-default-beaverBlue);
         }
 
         .placeholder {
@@ -89,10 +106,10 @@ export class CardP extends DDDSuper(I18NMixin(LitElement)) {
         tabindex="0"
         aria-label="${this.title}"
         >
-        <div class="image-container">
+        <div class="img-wrapper">
         ${this.logo
             ? html`<img src="https://haxtheweb.org/${this.logo}"  alt="${this.title}" />`
-            : html`<div class="placeholder">No Image</div>`
+            : html`<div class="placeholder">No Image</div>` //
           }
         </div>
 
@@ -117,10 +134,9 @@ export class CardP extends DDDSuper(I18NMixin(LitElement)) {
       const url = this.slug.startsWith("http")
         ? this.slug
         : `https://haxtheweb.org/${this.slug}`;
-      console.log("Navigating to:", url); // Debug log
+
       window.open(url, "_blank");
     } else {
-      console.error("Slug is not defined!"); // Debug error log
     }
   }
 

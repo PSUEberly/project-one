@@ -3,6 +3,20 @@ import { DDDSuper } from "@haxtheweb/d-d-d/d-d-d.js";
 import { I18NMixin } from "@haxtheweb/i18n-manager/lib/I18NMixin.js";
 
 export class WebSite extends DDDSuper(I18NMixin(LitElement)) {
+
+  constructor() {
+    super();
+    this.title = "";
+    this.description = '';
+    this.logo = '';
+    this.created = '';
+    this.updated = '';
+    this.hexCode = '';
+    this.theme = '';
+    this.icon = '';
+    this.jsonURL = '';
+  }
+
   static get properties() {
     return {
       title: { type: String },
@@ -24,7 +38,7 @@ export class WebSite extends DDDSuper(I18NMixin(LitElement)) {
         :host {
           display: block;
         }
-        .overview-container {
+        .overview-wrapper {
           display: flex;
           flex-direction: row;
           justify-content: center;
@@ -33,13 +47,14 @@ export class WebSite extends DDDSuper(I18NMixin(LitElement)) {
           flex-wrap: wrap;
           width: fit-content;
           padding: var(--ddd-spacing-5, 20px);
-          font-family: var(--ddd-font-primary, roboto);
+          font-family: var(--ddd-font-primary);
           font-size: 16px;
           color: var(--ddd-theme-default-beaverBlue);
+          background-color: var(--ddd-theme-default-coalyGray);
           border-radius: var(--ddd-radius-md);
           border: var(--ddd-border-md);
         }
-        .text-container {
+        .text-wrapper {
           font-weight: 400;
         }
         .title {
@@ -48,7 +63,7 @@ export class WebSite extends DDDSuper(I18NMixin(LitElement)) {
           text-align: center;
           margin-bottom: var(--ddd-spacing-4);
         }
-        .overview-container img {
+        .overview-wrapper img {
           display: block;
           height: 150px;
         }
@@ -58,14 +73,14 @@ export class WebSite extends DDDSuper(I18NMixin(LitElement)) {
 
   render() {
     return html`
-      <div class="overview-container" style="background-color:${this.hexCode}">
-        <div class="image-container">
+      <div class="overview-wrapper">
+        <div>
           ${this.logo
             ? html`<img src="https://haxtheweb.org/${this.logo}" alt="${this.title}" />`
             : html`<div>No Logo</div>`}
         </div>
 
-        <div class="text-container">
+        <div class="text-wrapper">
           <div class="title">
             <a href="https://haxtheweb.org/${this.slug}" target="_blank" rel="noopener noreferrer">
               ${this.icon ? html`<simple-icon icon="${this.icon}"></simple-icon>` : ""}
