@@ -135,7 +135,7 @@ export class CardP extends DDDSuper(I18NMixin(LitElement)) {
   }
 
 static get tag() {
-  return "card";
+  return "card-p";
 }
 }
 

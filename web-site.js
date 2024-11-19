@@ -2,7 +2,7 @@ import { LitElement, html, css } from "lit";
 import { DDDSuper } from "@haxtheweb/d-d-d/d-d-d.js";
 import { I18NMixin } from "@haxtheweb/i18n-manager/lib/I18NMixin.js";
 
-export class SiteOverview extends DDDSuper(I18NMixin(LitElement)) {
+export class WebSite extends DDDSuper(I18NMixin(LitElement)) {
   static get properties() {
     return {
       title: { type: String },
@@ -82,8 +82,8 @@ export class SiteOverview extends DDDSuper(I18NMixin(LitElement)) {
   }
 
   static get tag() {
-    return 'site-overview';
+    return 'web-site';
   }
 }
 
-customElements.define(SiteOverview.tag, SiteOverview);
+customElements.define(WebSite.tag, WebSite);

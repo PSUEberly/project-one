@@ -6,7 +6,7 @@ import { LitElement, html, css } from "lit";
 import { DDDSuper } from "@haxtheweb/d-d-d/d-d-d.js";
 import { I18NMixin } from "@haxtheweb/i18n-manager/lib/I18NMixin.js";
 import "./card-p.js";
-import "./site-overview.js"; 
+import "./web-site.js"; 
 
 import '@haxtheweb/hax-iconset/hax-iconset.js';
 import '@haxtheweb/simple-icon/simple-icon.js';
@@ -127,7 +127,7 @@ export class projectOne extends DDDSuper(I18NMixin(LitElement)) {
      ${this.data?.name
         ? html` 
           <div class="overview-container">
-          <site-overview
+          <web-site
               title="${this.data.name}"
               description="${this.data.description}"
               logo="${this.data.metadata.site.logo}"
@@ -137,7 +137,7 @@ export class projectOne extends DDDSuper(I18NMixin(LitElement)) {
               theme="${this.data.metadata.theme.name}"
               icon="${this.data.metadata.theme.variables.icon}"
               jsonUrl="${this.jsonUrl}"   
-          ></site-overview>
+          ></web-site>
           </div>
         ` : ""
       } 
