@@ -11,10 +11,10 @@ export class WebSite extends DDDSuper(I18NMixin(LitElement)) {
     this.logo = '';
     this.created = '';
     this.updated = '';
-    this.hexCode = '';
+    this.hexCode = ''; 
     this.theme = '';
     this.icon = '';
-    this.jsonURL = '';
+    this.jsonURL = ''; // json metadata url
   }
 
   static get properties() {
@@ -55,7 +55,7 @@ export class WebSite extends DDDSuper(I18NMixin(LitElement)) {
           border: var(--ddd-border-md);
         }
         .text-wrapper {
-          font-weight: 400;
+          font-weight: bold;
         }
         .title {
           font-size: 24px;
@@ -82,7 +82,7 @@ export class WebSite extends DDDSuper(I18NMixin(LitElement)) {
 
         <div class="text-wrapper">
           <div class="title">
-            <a href="https://haxtheweb.org/${this.slug}" target="_blank" rel="noopener noreferrer">
+            <a href="https://haxtheweb.org/${this.slug}" target="_blank" rel="">
               ${this.icon ? html`<simple-icon icon="${this.icon}"></simple-icon>` : ""}
               ${this.title}
             </a>

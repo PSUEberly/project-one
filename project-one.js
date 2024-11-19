@@ -195,10 +195,10 @@ export class projectOne extends DDDSuper(I18NMixin(LitElement)) {
       const response = await fetch(this.jsonUrl); // Fetch json
       const data = await response.json(); // Parse data
   
-      if (this.validateSchema(data)) {
+      if (this.validate(data)) {
         this.processData(data); // Process if schema is valid
       } else {
-        alert("Invalid JSON schema");
+        alert("Invalid JSON");
       }
     } catch (error) {
       alert("Invalid Search. Try Again");
@@ -208,7 +208,7 @@ export class projectOne extends DDDSuper(I18NMixin(LitElement)) {
   }
   
   // Validate the structure of the json data
-  validateSchema(data) {
+  validate(data) {
     return data && Array.isArray(data.items) && data.items.length > 0;
     
   }

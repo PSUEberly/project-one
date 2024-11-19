@@ -76,23 +76,18 @@ export class CardP extends DDDSuper(I18NMixin(LitElement)) {
           text-decoration: underline;
         }
 
-        .description, .created, .lastUpdated {
+        .description{
           font-size: 16px;
           text-align: center;
           color: var(--ddd-theme-default-beaverBlue);
         }
 
-        .placeholder {
-          width: 100%;
+        .no-image {
+          width: 90%;
           height: 200px;
           display: flex;
           align-items: center;
           justify-content: center;
-          background-color: var(--ddd-theme-default-limestoneLight);
-          color: var(--ddd-theme-default-coalyGray);
-          font-size: var(--ddd-font-weight-regular);
-          text-align: center;
-          font-family: var(--ddd-font-primary);
         }
       `
     ];
@@ -104,26 +99,25 @@ export class CardP extends DDDSuper(I18NMixin(LitElement)) {
         @click="${this.openSlug}"
         @keydown="${this.handleKeydown}"
         tabindex="0"
-        aria-label="${this.title}"
         >
         <div class="img-wrapper">
         ${this.logo
             ? html`<img src="https://haxtheweb.org/${this.logo}"  alt="${this.title}" />`
-            : html`<div class="placeholder">No Image</div>` //
+            : html`<div class="no-image"><img class="no-image" src="https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg"></div>` //
           }
         </div>
 
         <div class="info">
-          <a href="${this.slug.startsWith('http') ? this.slug : `https://haxtheweb.org/${this.slug}`}" target="_blank"  @click="${this.stopPropagation}">${this.title}</a>
+          <a href="${this.slug.startsWith('http') ? this.slug : `https://haxtheweb.org/${this.slug}`}" target="_blank"  @click="${this.stopSearch}">${this.title}</a>
         </div>
 
         <div class="description">${this.description}</div>
-        <div class="created">Created: ${this.created}</div>
-        <div class="lastUpdated">Last Updated: ${this.lastUpdated}</div>
-        <div class="lastUpdated">Estimated Read Time: ${this.readTime}</div>
+        <div class="description">Created: ${this.created}</div>
+        <div class="description">Last Updated: ${this.lastUpdated}</div>
+        <div class="description">Estimated Read Time: ${this.readTime}</div>
 
         <div class="info">
-          <a href="${this.location}" target="_blank" @click="${this.stopPropagation}">Index Source</a>
+          <a href="${this.location}" target="_blank" @click="${this.stopSearch}">Index Source</a>
         </div>
       </div>
     `;
@@ -146,8 +140,8 @@ export class CardP extends DDDSuper(I18NMixin(LitElement)) {
     }
   }
 
-  stopPropagation(event) {
-    event.stopPropagation();
+  stopSearch(event) {
+    event.stopSearch();
   }
 
 static get tag() {
